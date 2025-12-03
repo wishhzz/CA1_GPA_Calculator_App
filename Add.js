@@ -22,14 +22,14 @@ const Add = ({ navigation }) => {
             Alert.alert("Error", "Please fill in Module Name, Code, and choose a Semester.");
             return;
         }
-        const finalGrade = grade === '' ? '0' : grade;
-        const numericGrade = parseFloat(finalGrade);
-
-        if (numericGrade < 0 || numericGrade > 4) {
-            Alert.alert("Invalid Grade", "The grade must be between 0 and 4.");
-            return;
+        if (grade !== '') {
+            const numericGrade = parseFloat(grade);
+            if (isNaN(numericGrade) || numericGrade < 0 || numericGrade > 4) {
+                Alert.alert("Invalid Grade", "The grade must be between 0 and 4.");
+                return;
+            }
         }
-        addGPA(moduleName, code, semester, finalGrade);
+        addGPA(moduleName, code, semester, grade);
         navigation.goBack();
     };
 
@@ -80,7 +80,7 @@ const Add = ({ navigation }) => {
                     style={styles.input}
                     value={grade}
                     onChangeText={handleGradeChange}
-                    placeholder="Leave empty if not graded yet (Defaults to 0)"
+                    placeholder="Leave empty if not graded yet"
                     keyboardType="decimal-pad"
                 />
             </View>
